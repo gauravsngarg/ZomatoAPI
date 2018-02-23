@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="task1">Login through Google Account</string>
+    <string name="task2">Login through FB Account</string>
+    <string name="task3sha">Gauravs-MacBook:Zomato GG$ keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+Alias name: androiddebugkey
+Creation date: 29 May, 2016
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=Android Debug, O=Android, C=US
+Issuer: CN=Android Debug, O=Android, C=US
+Serial number: 19deafcc
+Valid from: Sun May 29 20:09:54 GST 2016 until: Tue May 22 20:09:54 GST 2046
+Certificate fingerprints:
+         MD5:  39:2F:EC:F4:76:28:AB:39:8E:1C:B6:1A:5F:CA:1F:A6
+         SHA1: 48:1A:98:93:51:6D:42:18:EA:94:2E:F1:24:FD:FD:D4:B4:66:17:C5
+         SHA256: FA:51:0A:83:F4:3E:98:C5:1A:3A:43:42:47:10:F2:C6:55:50:D7:AF:09:77:72:F3:FC:3D:3C:15:5E:7E:CF:44
+         Signature algorithm name: SHA256withRSA
+         Version: 3
+
+Extensions:
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: A0 A6 B3 F7 23 40 E4 AC   78 F3 AD D5 5B F6 C9 55  ....#@..x...[..U
+0010: F5 5B 38 68                                        .[8h
+]
+]
+
+</string>
+</resources>
