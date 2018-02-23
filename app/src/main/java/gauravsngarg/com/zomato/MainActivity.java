@@ -1,8 +1,10 @@
 package gauravsngarg.com.zomato;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +15,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Status;
+
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient, GoogleApiClient.OnConnectionFailedListener {
+
+    private
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,5 +109,102 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+       // if(view.getId() == )
+
+    }
+
+    @Override
+    public boolean hasConnectedApi(@NonNull Api<?> api) {
+        return false;
+    }
+
+    @NonNull
+    @Override
+    public ConnectionResult getConnectionResult(@NonNull Api<?> api) {
+        return null;
+    }
+
+    @Override
+    public void connect() {
+
+    }
+
+    @Override
+    public ConnectionResult blockingConnect() {
+        return null;
+    }
+
+    @Override
+    public ConnectionResult blockingConnect(long l, @NonNull TimeUnit timeUnit) {
+        return null;
+    }
+
+    @Override
+    public void disconnect() {
+
+    }
+
+    @Override
+    public void reconnect() {
+
+    }
+
+    @Override
+    public PendingResult<Status> clearDefaultAccountAndReconnect() {
+        return null;
+    }
+
+    @Override
+    public void stopAutoManage(@NonNull FragmentActivity fragmentActivity) {
+
+    }
+
+    @Override
+    public boolean isConnected() {
+        return false;
+    }
+
+    @Override
+    public boolean isConnecting() {
+        return false;
+    }
+
+    @Override
+    public void registerConnectionCallbacks(@NonNull ConnectionCallbacks connectionCallbacks) {
+
+    }
+
+    @Override
+    public boolean isConnectionCallbacksRegistered(@NonNull ConnectionCallbacks connectionCallbacks) {
+        return false;
+    }
+
+    @Override
+    public void unregisterConnectionCallbacks(@NonNull ConnectionCallbacks connectionCallbacks) {
+
+    }
+
+    @Override
+    public void registerConnectionFailedListener(@NonNull OnConnectionFailedListener onConnectionFailedListener) {
+
+    }
+
+    @Override
+    public boolean isConnectionFailedListenerRegistered(@NonNull OnConnectionFailedListener onConnectionFailedListener) {
+        return false;
+    }
+
+    @Override
+    public void unregisterConnectionFailedListener(@NonNull OnConnectionFailedListener onConnectionFailedListener) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
