@@ -1,12 +1,11 @@
 package gauravsngarg.com.zomato;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,24 +13,50 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-import java.util.concurrent.TimeUnit;
-
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    private
+    private TextView mName;
+    private TextView mEmail;
+    private ImageView mProfileImage;
+    private Button mLogOut;
+
+    private SignInButton mSignInButton;
+    private GoogleApiClient mGoogleApiClient;
+    private static final int REQ_CODE = 9001;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mProfileImage = (ImageView) findViewById(R.id.profileimage);
+        mName = (TextView) findViewById(R.id.namedisplay);
+        mEmail = (TextView) findViewById(R.id.emaildisplay);
+        mLogOut = (Button) findViewById(R.id.logoutbutton);
+        mSignInButton = (SignInButton) findViewById(R.id.bnlogin);
+
+        mSignInButton.setOnClickListener(this);
+        mLogOut.setOnClickListener(this);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -52,6 +77,19 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        mProfileImage.setVisibility(View.GONE);
+        mName.setVisibility(View.GONE);
+        mEmail.setVisibility(View.GONE);
+        mLogOut.setVisibility(View.GONE);
+
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(
+                Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
+
+
+
     }
 
     @Override
@@ -113,95 +151,69 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClick(View view) {
-       // if(view.getId() == )
+        switch(view.getId()){
+            case R.id.bnlogin : signIn();
+            break;
+            case R.id.logoutbutton: signOut();
+        }
 
     }
+
+    private void signIn() {
+        Intent intent = Auth.GoogleSignInApi.getSignInIntent((mGoogleApiClient));
+        startActivityForResult(intent, REQ_CODE);
+    }
+
+    private void signOut() {
+         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+
+            @Override
+            public void onResult(@NonNull Status status) {
+                updateUI(false);
+            }
+    });}
 
     @Override
-    public boolean hasConnectedApi(@NonNull Api<?> api) {
-        return false;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == REQ_CODE) {
+                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+                handleResult(result);
+            }
+        }
+
+    private void handleResult(GoogleSignInResult result) {
+        if(result.isSuccess()){
+            GoogleSignInAccount account = result.getSignInAccount();
+            String name = account.getDisplayName();
+            String email = account.getEmail();
+            String img_url = account.getPhotoUrl().toString();
+
+            mName.setText(name);
+            mEmail.setText(email);
+            Glide.with(this).load(img_url).into(mProfileImage);
+            updateUI(true);
+        }
+        else updateUI(false);
     }
 
-    @NonNull
-    @Override
-    public ConnectionResult getConnectionResult(@NonNull Api<?> api) {
-        return null;
+    private void updateUI(boolean isLogin) {
+        if(isLogin){
+            mProfileImage.setVisibility(View.VISIBLE);
+            mName.setVisibility(View.VISIBLE);
+            mEmail.setVisibility(View.VISIBLE);
+            mLogOut.setVisibility(View.VISIBLE);
+            mSignInButton.setVisibility(View.GONE);
+        }else{
+            mProfileImage.setVisibility(View.GONE);
+            mName.setVisibility(View.GONE);
+            mEmail.setVisibility(View.GONE);
+            mLogOut.setVisibility(View.GONE);
+            mSignInButton.setVisibility(View.VISIBLE);
+        }
     }
 
-    @Override
-    public void connect() {
-
-    }
-
-    @Override
-    public ConnectionResult blockingConnect() {
-        return null;
-    }
-
-    @Override
-    public ConnectionResult blockingConnect(long l, @NonNull TimeUnit timeUnit) {
-        return null;
-    }
-
-    @Override
-    public void disconnect() {
-
-    }
-
-    @Override
-    public void reconnect() {
-
-    }
-
-    @Override
-    public PendingResult<Status> clearDefaultAccountAndReconnect() {
-        return null;
-    }
-
-    @Override
-    public void stopAutoManage(@NonNull FragmentActivity fragmentActivity) {
-
-    }
-
-    @Override
-    public boolean isConnected() {
-        return false;
-    }
-
-    @Override
-    public boolean isConnecting() {
-        return false;
-    }
-
-    @Override
-    public void registerConnectionCallbacks(@NonNull ConnectionCallbacks connectionCallbacks) {
-
-    }
-
-    @Override
-    public boolean isConnectionCallbacksRegistered(@NonNull ConnectionCallbacks connectionCallbacks) {
-        return false;
-    }
-
-    @Override
-    public void unregisterConnectionCallbacks(@NonNull ConnectionCallbacks connectionCallbacks) {
-
-    }
-
-    @Override
-    public void registerConnectionFailedListener(@NonNull OnConnectionFailedListener onConnectionFailedListener) {
-
-    }
-
-    @Override
-    public boolean isConnectionFailedListenerRegistered(@NonNull OnConnectionFailedListener onConnectionFailedListener) {
-        return false;
-    }
-
-    @Override
-    public void unregisterConnectionFailedListener(@NonNull OnConnectionFailedListener onConnectionFailedListener) {
-
-    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

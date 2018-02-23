@@ -10,17 +10,17 @@
     tools:showIn="@layout/app_bar_main">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/namedisplay"
         android:layout_width="165dp"
         android:layout_height="37dp"
         android:layout_marginStart="32dp"
         android:text="Name Display Here"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4"/>
+        app:layout_constraintEnd_toEndOf="@+id/emaildisplay"
+        app:layout_constraintStart_toEndOf="@+id/profileimage"
+        app:layout_constraintTop_toTopOf="@+id/profileimage"/>
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/profileimage"
         android:layout_width="109dp"
         android:layout_height="126dp"
         android:layout_marginStart="24dp"
@@ -28,10 +28,10 @@
         android:contentDescription="ProfileImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/profile_image"/>
+        app:srcCompat="@drawable/ic_launcher_foreground"/>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/emaildisplay"
         android:layout_width="163dp"
         android:layout_height="37dp"
         android:layout_marginEnd="24dp"
@@ -40,8 +40,8 @@
         android:text="Email Display Here"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"/>
+        app:layout_constraintStart_toEndOf="@+id/profileimage"
+        app:layout_constraintTop_toBottomOf="@+id/namedisplay"/>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/bnlogin"
@@ -53,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"/>
+        app:layout_constraintTop_toBottomOf="@+id/profileimage"/>
 
     <Button
         android:id="@+id/logoutbutton"
@@ -63,11 +63,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Logout Google Account"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintBottom_toBottomOf="@+id/profileimage"
+        app:layout_constraintEnd_toEndOf="@+id/emaildisplay"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/emaildisplay"
+        app:layout_constraintTop_toBottomOf="@+id/emaildisplay"
         app:layout_constraintVertical_bias="0.0"/>
 
 
